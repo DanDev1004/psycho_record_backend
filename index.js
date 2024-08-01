@@ -73,3 +73,8 @@ store.sync(); //creando tabla sessions para almacenar las sesiones en la db y no
 app.listen(process.env.APP_PORT , ()=>{
     console.log("server corriendo")
 });
+
+
+//Ejemplo para crear el  .env
+//APP_PORT = 5000
+//SESSION_SECRET= 1d3371d6a5509e05353919b6cb02883c34f67c7f3c332600e1f3a3d38789f560

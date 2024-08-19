@@ -4,7 +4,9 @@ import {
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+
+    buscar
 } from "../controllers/UsuarioController.js";
 
 import { verificarUsuarioLogeado, adminPermiso } from "../middleware/AuthUser.js";
@@ -16,5 +18,7 @@ UsuarioRouter.get('/usuario/:id',verificarUsuarioLogeado,adminPermiso, obtenerPo
 UsuarioRouter.post('/usuario',verificarUsuarioLogeado,adminPermiso, crear);
 UsuarioRouter.patch('/usuario/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 UsuarioRouter.delete('/usuario/:id',verificarUsuarioLogeado,adminPermiso, eliminar);
+
+UsuarioRouter.post('/buscarUsuario', verificarUsuarioLogeado, adminPermiso, buscar);
 
 export default UsuarioRouter;

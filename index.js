@@ -1,11 +1,13 @@
 import express from "express";
 import cors from "cors";
-import session, { Cookie } from "express-session";
+import session from "express-session";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
-import UsuarioRouter from "./routes/UsuarioRouter.js";
+import insertInitialData from "./models/insertInitialData.js";
+
 import RolRouter from "./routes/RolRouter.js";
+import UsuarioRouter from "./routes/UsuarioRouter.js";
 import AuthRouter from "./routes/AuthRouter.js";
 import ReligionRouter from "./routes/ReligionRouter.js";
 import EstadoCivilRouter from "./routes/EstadoCivilRouter.js";
@@ -18,6 +20,11 @@ import ListadoAulaRouter from "./routes/ListadoAulaRouter.js";
 import DerivacionRouter from "./routes/DerivacionRouter.js";
 import ParentescoRouter from "./routes/ParentescoRouter.js";
 import RegistroFamiliarRouter from "./routes/RegistroFamiliarRouter.js";
+import FamiliarRouter from "./routes/FamiliarRouter.js";
+import ConsultaPsRouter from "./routes/ConsultaPsRouter.js";
+import DiagnosticoRouter from "./routes/DiagnosticoRouter.js";
+import CategoriaRouter from "./routes/CategoriaRouter.js";
+import CondicionRouter from "./routes/CondicionRouter.js";
 
 
 dotenv.config();
@@ -27,9 +34,15 @@ const app = express();
 const sessionStore = SequelizeStore(session.Store);
 const store = new sessionStore({ db: db });
 
- (async()=>{  
-    await db.sync();
-  })();
+(async () => {
+    try {
+        await db.sync(); // Sincronizar los modelos con la base de datos
+        await insertInitialData();
+        console.log("Base de datos sincronizada y datos iniciales insertados");
+    } catch (error) {
+        console.error("Error durante la sincronización de la base de datos:", error);
+    }
+})();
 
 
 app.use(session(
@@ -38,8 +51,8 @@ app.use(session(
         resave: false,
         saveUninitialized: true,
         store: store,
-        Cookie: {
-            secure: 'auto'  //Si se usa http automaticamente será false, si es https será true
+        cookie: {
+            secure: 'auto', //Si se usa http automaticamente será false, si es https será true
         }
     }
 ));
@@ -67,14 +80,14 @@ app.use(ListadoAulaRouter);
 app.use(DerivacionRouter);
 app.use(ParentescoRouter);
 app.use(RegistroFamiliarRouter);
+app.use(FamiliarRouter);
+app.use(ConsultaPsRouter);
+app.use(DiagnosticoRouter);
+app.use(CondicionRouter)
+app.use(CategoriaRouter);
 
 store.sync(); //creando tabla sessions para almacenar las sesiones en la db y no perderlas al reiniciar servidor
 
-app.listen(process.env.APP_PORT , ()=>{
+app.listen(process.env.APP_PORT, () => {
     console.log("server corriendo")
 });
-
-
-//Ejemplo para crear el  .env
-//APP_PORT = 5000
-//SESSION_SECRET= 1d3371d6a5509e05353919b6cb02883c34f67c7f3c332600e1f3a3d38789f560

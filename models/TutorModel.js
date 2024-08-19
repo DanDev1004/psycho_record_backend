@@ -3,7 +3,8 @@ import db from "../config/Database.js";
 import Instructor from "./InstructorModel.js";
 import Aula from "./AulaModel.js";
 
-const {DataTypes} = Sequelize
+
+const { DataTypes } = Sequelize
 
 const Tutor = db.define('TUTOR', {
   ID_TUTOR: {
@@ -27,19 +28,9 @@ const Tutor = db.define('TUTOR', {
       key: 'ID_AULA'
     }
   },
-  FECHA_INICIO: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  FECHA_FIN: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  ESTADO: {
-    type: DataTypes.BOOLEAN
-  }
+
 }, {
-    freezeTableName: true
+  freezeTableName: true
 });
 
 Instructor.belongsToMany(Aula, { through: Tutor, foreignKey: 'ID_INSTRUCTOR' });
@@ -47,5 +38,6 @@ Aula.belongsToMany(Instructor, { through: Tutor, foreignKey: 'ID_AULA' });
 
 Tutor.belongsTo(Instructor, { foreignKey: 'ID_INSTRUCTOR' });
 Tutor.belongsTo(Aula, { foreignKey: 'ID_AULA' });
+
 
 export default Tutor;

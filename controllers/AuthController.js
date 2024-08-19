@@ -1,4 +1,5 @@
 import Usuario from "../models/UsuarioModel.js";
+import Rol from "../models/RolModel.js";
 import argon2 from "argon2";
 
 export const Login = async (req, res) =>{
@@ -31,6 +32,12 @@ export const Me = async (req, res) =>{
     }
     const user = await Usuario.findOne({
         attributes:['ID_USUARIO','DNI_USUARIO','NOMBRE_USUARIO','APELLIDO_USUARIO','USERNAME','EMAIL','ID_ROL'],
+        include: [
+            {
+                model: Rol,
+                attributes: ['NOMBRE_ROL']
+            }
+        ],
         where: {
             ID_USUARIO: req.session.userId
         }

@@ -4,7 +4,9 @@ import {
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+
+    buscar
 } from "../controllers/AlumnoController.js";
 
 import { verificarUsuarioLogeado, adminPermiso } from "../middleware/AuthUser.js";
@@ -16,5 +18,6 @@ AlumnoRouter.get('/alumno/:id',verificarUsuarioLogeado,adminPermiso, obtenerPorI
 AlumnoRouter.post('/alumno',verificarUsuarioLogeado,adminPermiso, crear);
 AlumnoRouter.patch('/alumno/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 AlumnoRouter.delete('/alumno/:id',verificarUsuarioLogeado,adminPermiso, eliminar);
+AlumnoRouter.post('/buscarAlumno', verificarUsuarioLogeado, adminPermiso, buscar); 
 
 export default AlumnoRouter;

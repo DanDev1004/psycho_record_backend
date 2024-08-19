@@ -6,6 +6,7 @@ import Aula from "../models/AulaModel.js";
 import Religion from "../models/ReligionModel.js";
 import EstadoCivil from "../models/EstadoCivilModel.js";
 import AreaPe from "../models/AreaPeModel.js";
+import { Op } from "sequelize";
 
 export const obtenerTodos = async (req, res) => {
     try {
@@ -14,7 +15,7 @@ export const obtenerTodos = async (req, res) => {
             include: [
                 {
                     model: Alumno,
-                    attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO','SEXO','EDAD','TELEFONO','ID_RELIGION','ID_EC','DIRECCION_NACIMIENTO','FECHA_NACIMIENTO','DOMICILIO'],
+                    attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO','SEXO','TELEFONO','ID_RELIGION','ID_EC','DIRECCION_NACIMIENTO','FECHA_NACIMIENTO','DOMICILIO','ID_AULA'],
                     include: [
                         {
                             model: EstadoCivil,
@@ -23,6 +24,16 @@ export const obtenerTodos = async (req, res) => {
                         {
                             model: Religion,
                             attributes:['NOMBRE_RELIGION']
+                        },
+                        {
+                            model: Aula,
+                            attributes: ['ANIO', 'PERIODO', 'CICLO','ID_AREA_PE'],
+                            include:[
+                                {
+                                    model: AreaPe,
+                                    attributes:['NOMBRE_AREA_PE']
+                                }
+                            ]
                         }
                     ]
                 },
@@ -71,7 +82,7 @@ export const obtenerPorId = async (req, res) => {
             include: [
                 {
                     model: Alumno,
-                    attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO','SEXO','EDAD','TELEFONO','ID_RELIGION','ID_EC','DIRECCION_NACIMIENTO','FECHA_NACIMIENTO','DOMICILIO'],
+                    attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO','SEXO','TELEFONO','ID_RELIGION','ID_EC','DIRECCION_NACIMIENTO','FECHA_NACIMIENTO','DOMICILIO','ID_AULA'],
                     include: [
                         {
                             model: EstadoCivil,
@@ -80,6 +91,16 @@ export const obtenerPorId = async (req, res) => {
                         {
                             model: Religion,
                             attributes:['NOMBRE_RELIGION']
+                        },
+                        {
+                            model: Aula,
+                            attributes: ['ANIO', 'PERIODO', 'CICLO','ID_AREA_PE'],
+                            include:[
+                                {
+                                    model: AreaPe,
+                                    attributes:['NOMBRE_AREA_PE']
+                                }
+                            ]
                         }
                     ]
                 },
@@ -117,6 +138,72 @@ export const obtenerPorId = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+
+export const buscar = async (req, res) => {
+    try {
+        const { searchText } = req.body;
+
+        const response = await ListadoAula.findAll({
+            attributes: ['ID_LISTADO_AULA', 'ID_ALUMNO', 'ID_TUTOR'],
+            include: [
+                {
+                    model: Alumno,
+                    attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO', 'SEXO', 'TELEFONO', 'ID_RELIGION', 'ID_EC', 'DIRECCION_NACIMIENTO', 'FECHA_NACIMIENTO', 'DOMICILIO'],
+                    include: [
+                        {
+                            model: EstadoCivil,
+                            attributes: ['NOMBRE_EC']
+                        },
+                        {
+                            model: Religion,
+                            attributes: ['NOMBRE_RELIGION']
+                        }
+                    ]
+                },
+                {
+                    model: Tutor,
+                    attributes: ['ID_INSTRUCTOR', 'ID_AULA'],
+                    include: [
+                        {
+                            model: Instructor,
+                            attributes: ['DNI_INSTRUCTOR', 'NOMBRE_INSTRUCTOR', 'APELLIDO_INSTRUCTOR', 'ID_AREA_PE'],
+                            include: [
+                                {
+                                    model: AreaPe,
+                                    attributes: ['NOMBRE_AREA_PE']
+                                }
+                            ]
+                        },
+                        {
+                            model: Aula,
+                            attributes: ['ANIO', 'PERIODO', 'CICLO', 'ID_AREA_PE'],
+                            include: [
+                                {
+                                    model: AreaPe,
+                                    attributes: ['NOMBRE_AREA_PE']
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ],
+            where: {
+                [Op.or]: [
+                    { '$ALUMNO.NOMBRE_ALUMNO$': { [Op.like]: `%${searchText}%` } },
+                    { '$ALUMNO.APELLIDO_ALUMNO$': { [Op.like]: `%${searchText}%` } },
+                    { '$TUTOR.INSTRUCTOR.NOMBRE_INSTRUCTOR$': { [Op.like]: `%${searchText}%` } },
+                    { '$TUTOR.INSTRUCTOR.APELLIDO_INSTRUCTOR$': { [Op.like]: `%${searchText}%` } }
+                ]
+            }
+        });
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
 
 export const crear = async (req, res) => {
     const { ID_ALUMNO, ID_TUTOR } = req.body;

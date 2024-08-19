@@ -10,14 +10,7 @@ const Instructor = db.define('INSTRUCTOR', {
     autoIncrement: true,
     primaryKey: true
   },
-  ID_AREA_PE: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    references: {
-      model: AreaPe,
-      key: 'ID_AREA_PE'
-    }
-  },
+
   DNI_INSTRUCTOR: {
     type: DataTypes.CHAR(8),
     allowNull: false,
@@ -39,6 +32,25 @@ const Instructor = db.define('INSTRUCTOR', {
     validate:{
         notEmpty: true
     }
+  },
+  ID_AREA_PE: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: AreaPe,
+      key: 'ID_AREA_PE'
+    }
+  },
+  FECHA_INICIO: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  FECHA_FIN: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  ESTADO: {
+    type: DataTypes.BOOLEAN
   }
 },  {
     freezeTableName: true
@@ -47,5 +59,6 @@ const Instructor = db.define('INSTRUCTOR', {
 
 AreaPe.hasMany(Instructor, { foreignKey: 'ID_AREA_PE' });
 Instructor.belongsTo(AreaPe, { foreignKey: 'ID_AREA_PE' });
+
 
 export default Instructor;

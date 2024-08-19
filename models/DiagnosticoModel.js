@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import ConsultaPs from "./consultaPsModel.js";
+import ConsultaPs from "./ConsultaPsModel.js";
 import Condicion from "./CondicionModel.js";
 
 const {DataTypes} = Sequelize;
@@ -41,7 +41,5 @@ const Diagnostico = db.define('Diagnostico', {
 ConsultaPs.hasMany(Diagnostico, { foreignKey: 'ID_CONSULTA_PS' });
 Diagnostico.belongsTo(ConsultaPs, { foreignKey: 'ID_CONSULTA_PS' });
 
-Condicion.hasMany(Diagnostico, { foreignKey: 'ID_CONDICION' });
-Diagnostico.belongsTo(Condicion, { foreignKey: 'ID_CONDICION' });
 
 export default Diagnostico;

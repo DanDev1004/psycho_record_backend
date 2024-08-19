@@ -27,15 +27,15 @@ const Aula = db.define('AULA', {
     }
   },
   PERIODO: {
-    type: DataTypes.CHAR(2),
+    type: DataTypes.INTEGER,
     validate: {
-      isIn: [['I', 'II']]
+      isIn: [[1,2]]
     }
   },
   CICLO: {
-    type: DataTypes.CHAR(3),
+    type: DataTypes.INTEGER,
     validate: {
-      isIn: [['I', 'II', 'III', 'IV', 'V', 'VI']]
+      isIn: [[1,2,3,4,5,6]]
     }
   }
 },  {

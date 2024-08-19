@@ -9,6 +9,7 @@ import Tutor from "../models/TutorModel.js";
 import Instructor from "../models/InstructorModel.js";
 import Aula from "../models/AulaModel.js";
 import AreaPe from "../models/AreaPeModel.js";
+import { Op } from "sequelize";
 
 export const obtenerTodos = async (req, res) => {
     try {
@@ -31,7 +32,7 @@ export const obtenerTodos = async (req, res) => {
                     include: [
                         {
                             model: Alumno,
-                            attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO', 'SEXO', 'EDAD', 'TELEFONO', 'ID_RELIGION', 'ID_EC', 'DIRECCION_NACIMIENTO', 'FECHA_NACIMIENTO', 'DOMICILIO'],
+                            attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO', 'SEXO', 'TELEFONO', 'ID_RELIGION', 'ID_EC', 'DIRECCION_NACIMIENTO', 'FECHA_NACIMIENTO', 'DOMICILIO'],
                             include: [
                                 {
                                     model: EstadoCivil,
@@ -103,7 +104,7 @@ export const obtenerPorId = async (req, res) => {
                     include: [
                         {
                             model: Alumno,
-                            attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO', 'SEXO', 'EDAD', 'TELEFONO', 'ID_RELIGION', 'ID_EC', 'DIRECCION_NACIMIENTO', 'FECHA_NACIMIENTO', 'DOMICILIO'],
+                            attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO', 'DNI_ALUMNO', 'SEXO',  'TELEFONO', 'ID_RELIGION', 'ID_EC', 'DIRECCION_NACIMIENTO', 'FECHA_NACIMIENTO', 'DOMICILIO'],
                             include: [
                                 {
                                     model: EstadoCivil,
@@ -150,6 +151,51 @@ export const obtenerPorId = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+
+export const buscar = async (req, res) => {
+    try {
+        const { searchText } = req.body;
+
+        const response = await Familiar.findAll({
+            attributes: ['ID_FAMILIAR', 'ID_RF', 'ID_LISTADO_AULA'],
+            include: [
+                {
+                    model: RegistroFamiliar,
+                    attributes: ['NOMBRE_RF', 'TELEFONO', 'ID_PARENTESCO'],
+                    include: [
+                        {
+                            model: Parentesco,
+                            attributes: ['NOMBRE_PARENTESCO']
+                        }
+                    ]
+                },
+                {
+                    model: ListadoAula,
+                    attributes: ['ID_LISTADO_AULA', 'ID_ALUMNO', 'ID_TUTOR'],
+                    include: [
+                        {
+                            model: Alumno,
+                            attributes: ['NOMBRE_ALUMNO', 'APELLIDO_ALUMNO']
+                        }
+                    ]
+                }
+            ],
+            where: {
+                [Op.or]: [
+                    { '$REGISTRO_FAMILIAR.NOMBRE_RF$': { [Op.like]: `%${searchText}%` } },
+                    { '$LISTADO_AULA.ALUMNO.NOMBRE_ALUMNO$': { [Op.like]: `%${searchText}%` } },
+                    { '$LISTADO_AULA.ALUMNO.APELLIDO_ALUMNO$': { [Op.like]: `%${searchText}%` } }
+                ]
+            }
+        });
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
 
 export const crear = async (req, res) => {
     const { ID_RF, ID_LISTADO_AULA } = req.body;

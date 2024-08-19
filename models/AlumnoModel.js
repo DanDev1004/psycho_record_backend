@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import Religion from "./ReligionModel.js";
 import EstadoCivil from "./EstadoCivilModel.js";
+import Aula from "./AulaModel.js";
 
 
 const {DataTypes} = Sequelize;
@@ -41,20 +42,13 @@ const Alumno = db.define('ALUMNO', {
         isIn: [['M', 'F']]
       }
     },
-    EDAD: {
-      type: DataTypes.SMALLINT,
-      allowNull: false,
-      validate: {
-        min: 14,
-        max: 65
-      }
-    },
     TELEFONO: {
       type: DataTypes.CHAR(9),
       allowNull: true,
     },
     ID_RELIGION: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: Religion,
         key: 'ID_RELIGION'
@@ -62,9 +56,17 @@ const Alumno = db.define('ALUMNO', {
     },
     ID_EC: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: EstadoCivil,
         key: 'ID_EC'
+      }
+    },
+    ID_AULA: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Aula,
+        key: 'ID_AULA'
       }
     },
     DIRECCION_NACIMIENTO: {
@@ -89,5 +91,8 @@ Alumno.belongsTo(Religion, { foreignKey: 'ID_RELIGION' });
 
 EstadoCivil.hasMany(Alumno, { foreignKey: 'ID_EC' });
 Alumno.belongsTo(EstadoCivil, { foreignKey: 'ID_EC' });
+
+Aula.hasMany(Alumno, { foreignKey: 'ID_AULA' });
+Alumno.belongsTo(Aula, { foreignKey: 'ID_AULA' });
 
   export default Alumno;

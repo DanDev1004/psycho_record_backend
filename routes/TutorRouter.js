@@ -4,7 +4,9 @@ import {
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+
+    buscar
 } from "../controllers/TutorController.js";
 
 import { verificarUsuarioLogeado, adminPermiso } from "../middleware/AuthUser.js";
@@ -16,5 +18,7 @@ TutorRouter.get('/tutor/:id',verificarUsuarioLogeado,adminPermiso, obtenerPorId)
 TutorRouter.post('/tutor',verificarUsuarioLogeado,adminPermiso, crear);
 TutorRouter.patch('/tutor/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 TutorRouter.delete('/tutor/:id',verificarUsuarioLogeado,adminPermiso, eliminar);
+
+TutorRouter.post('/buscarTutor',verificarUsuarioLogeado,adminPermiso, buscar);
 
 export default TutorRouter;

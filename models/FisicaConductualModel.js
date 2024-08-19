@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import ConsultaPs from "./consultaPsModel.js";
+import ConsultaPs from "./ConsultaPsModel.js";
 
 const {DataTypes} = Sequelize;
 

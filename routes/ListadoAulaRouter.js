@@ -4,7 +4,9 @@ import {
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+
+    buscar
 } from "../controllers/ListadoAulaController.js";
 
 import { verificarUsuarioLogeado, adminPermiso } from "../middleware/AuthUser.js";
@@ -16,5 +18,7 @@ ListadoAulaRouter.get('/listadoaula/:id',verificarUsuarioLogeado,adminPermiso, o
 ListadoAulaRouter.post('/listadoaula',verificarUsuarioLogeado,adminPermiso, crear);
 ListadoAulaRouter.patch('/listadoaula/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 ListadoAulaRouter.delete('/listadoaula/:id',verificarUsuarioLogeado,adminPermiso, eliminar);
+
+ListadoAulaRouter.post('/buscarListadoAula',verificarUsuarioLogeado,adminPermiso, buscar);
 
 export default ListadoAulaRouter;

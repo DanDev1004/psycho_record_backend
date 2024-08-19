@@ -4,7 +4,9 @@ import {
     obtenerPorId, 
     crear, 
     actualizar, 
-    eliminar
+    eliminar,
+
+    buscar
 } from "../controllers/DerivacionController.js";
 
 import { verificarUsuarioLogeado } from "../middleware/AuthUser.js";
@@ -17,4 +19,5 @@ DerivacionRouter.post('/derivacion',verificarUsuarioLogeado, crear);
 DerivacionRouter.patch('/derivacion/:id',verificarUsuarioLogeado, actualizar);
 DerivacionRouter.delete('/derivacion/:id',verificarUsuarioLogeado, eliminar);
 
+DerivacionRouter.post('/buscarDerivacion',verificarUsuarioLogeado, buscar);
 export default DerivacionRouter;

@@ -4,7 +4,8 @@ import {
     obtenerPorId,
     crear,
     actualizar,
-    eliminar
+    eliminar,
+    buscar
 } from "../controllers/InstructorController.js";
 
 import { verificarUsuarioLogeado, adminPermiso } from "../middleware/AuthUser.js";
@@ -16,5 +17,8 @@ instructorRouter.get('/instructor/:id',verificarUsuarioLogeado,adminPermiso, obt
 instructorRouter.post('/instructor',verificarUsuarioLogeado,adminPermiso, crear);
 instructorRouter.patch('/instructor/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 instructorRouter.delete('/instructor/:id',verificarUsuarioLogeado,adminPermiso, eliminar);
+
+instructorRouter.post('/buscarInstructor', verificarUsuarioLogeado, adminPermiso, buscar);
+
 
 export default instructorRouter;

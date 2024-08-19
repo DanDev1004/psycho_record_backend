@@ -27,13 +27,6 @@ const Derivacion = db.define('DERIVACION', {
       key: 'ID_LISTADO_AULA'
     }
   },
-  FECHA_DERIVACION: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    validate:{
-        notEmpty: true
-    }
-  },
   MOTIVO: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -44,8 +37,7 @@ const Derivacion = db.define('DERIVACION', {
   SEVERIDAD: {
     type: DataTypes.SMALLINT,
     validate: {
-      min: 1,
-      max: 3
+      isIn: [[1,2,3]] // 1=>BAJO 2=>MODERADA  3=> URGENTE
     }
   },
   ESTADO: {

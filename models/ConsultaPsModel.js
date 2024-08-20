@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 
 import Usuario from "./UsuarioModel.js";
-import ListadoAula from "./ListadoAulaModel.js";
+import Alumno from "./AlumnoModel.js";
 import Familiar from "./FamiliarModel.js";
 import Derivacion from "./DerivacionModel.js";
 
@@ -25,14 +25,14 @@ const ConsultaPs = db.define('CONSULTA_PS', {
   TIPO_DERIVACION: {
     type: DataTypes.INTEGER,
     validate: {
-      isIn: [[1,2,3]] // 1=>AUTONOMO 2=> PARIENTE 3=> INSTRUCTOR
+      isIn: [[1,2,3]] // 1=>AUTONOMO 2=> PARIENTE 3=> TUTOR
     }
   },
-  ID_LISTADO_AULA: {
+  ID_ALUMNO: {
     type: DataTypes.INTEGER,
     references: {
-      model: ListadoAula,
-      key: 'ID_LISTADO_AULA'
+      model: Alumno,
+      key: 'ID_ALUMNO'
     } // AUTONOMO
   },
   ID_FAMILIAR: {
@@ -93,8 +93,8 @@ const ConsultaPs = db.define('CONSULTA_PS', {
 Usuario.hasMany(ConsultaPs, { foreignKey: 'ID_USUARIO' });
 ConsultaPs.belongsTo(Usuario, { foreignKey: 'ID_USUARIO' });
 
-ListadoAula.hasMany(ConsultaPs, { foreignKey: 'ID_LISTADO_AULA' });
-ConsultaPs.belongsTo(ListadoAula, { foreignKey: 'ID_LISTADO_AULA' });
+Alumno.hasMany(ConsultaPs, { foreignKey: 'ID_ALUMNO' });
+ConsultaPs.belongsTo(Alumno, { foreignKey: 'ID_ALUMNO' });
 
 Familiar.hasMany(ConsultaPs, { foreignKey: 'ID_FAMILIAR' });
 ConsultaPs.belongsTo(Familiar, { foreignKey: 'ID_FAMILIAR' });

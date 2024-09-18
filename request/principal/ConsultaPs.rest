@@ -1,0 +1,57 @@
+
+GET http://localhost:5000/consulta
+Content-Type: application/json
+
+### 
+GET http://localhost:5000/consulta/1
+Content-Type: application/json
+
+### 
+// 1=>AUTONOMO 2=> PARIENTE 3=> INSTRUCTOR
+//  1=>pendiente ; 2=>asistido ; 3=> no asistido
+POST http://localhost:5000/consulta
+Content-Type: application/json
+
+{
+  "ID_USUARIO": 1,
+  "TIPO_DERIVACION": 2,
+  "ID_ALUMNO": 3,
+  "ID_DERIVACION": 4,
+  "ID_FAMILIAR": 5,
+  "FECHA_ATENCION": "2024-08-07",
+  "HORA_INICIO": "10:00:00",
+  "HORA_FIN": "11:00:00",
+  "ASISTENCIA": 1,
+  "MOTIVO": "Ansiedad generalizada",
+  "PROBLEMA": "Dificultades en la escuela",
+  "RECOMENDACION": "Terapia cognitivo-conductual",
+  "ASPECTO_FISICO": "Buena presentación",
+  "ASEO_PERSONAL": "Adecuado",
+  "CONDUCTA": "Cooperativa"
+}
+
+### 
+PATCH http://localhost:5000/consulta/1
+Content-Type: application/json
+
+{
+  "ID_USUARIO": 1,
+  "TIPO_DERIVACION": 2,
+  "ID_ALUMNO": 3,
+  "ID_DERIVACION": 4,
+  "ID_FAMILIAR": 5,
+  "FECHA_ATENCION": "2024-08-07",
+  "HORA_INICIO": "10:00:00",
+  "HORA_FIN": "11:00:00",
+  "ASISTENCIA": 1,
+  "MOTIVO": "Ansiedad generalizada - Actualizado",
+  "PROBLEMA": "Dificultades en la escuela - Actualizado",
+  "RECOMENDACION": "Terapia cognitivo-conductual - Actualizado",
+  "ASPECTO_FISICO": "Buena presentación - Actualizado",
+  "ASEO_PERSONAL": "Adecuado - Actualizado",
+  "CONDUCTA": "Cooperativa - Actualizado"
+}
+
+### 
+DELETE http://localhost:5000/consulta/1
+Content-Type: application/json

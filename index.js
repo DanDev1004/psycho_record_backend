@@ -4,28 +4,26 @@ import session from "express-session";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
-import insertInitialData from "./models/insertInitialData.js";
 
-import RolRouter from "./routes/RolRouter.js";
-import UsuarioRouter from "./routes/UsuarioRouter.js";
-import AuthRouter from "./routes/AuthRouter.js";
-import ReligionRouter from "./routes/ReligionRouter.js";
-import EstadoCivilRouter from "./routes/EstadoCivilRouter.js";
-import AreaPeRouter from "./routes/AreaPeRouter.js";
-import instructorRouter from "./routes/InstructorRouter.js";
-import AulaRouter from "./routes/AulaRouter.js";
-import TutorRouter from "./routes/TutorRouter.js";
-import AlumnoRouter from "./routes/AlumnoRouter.js";
-import ListadoAulaRouter from "./routes/ListadoAulaRouter.js";
-import DerivacionRouter from "./routes/DerivacionRouter.js";
-import ParentescoRouter from "./routes/ParentescoRouter.js";
-import RegistroFamiliarRouter from "./routes/RegistroFamiliarRouter.js";
-import FamiliarRouter from "./routes/FamiliarRouter.js";
-import ConsultaPsRouter from "./routes/ConsultaPsRouter.js";
-import DiagnosticoRouter from "./routes/DiagnosticoRouter.js";
-import CategoriaRouter from "./routes/CategoriaRouter.js";
-import CondicionRouter from "./routes/CondicionRouter.js";
 
+import ReligionRouter from "./routers/mantenimiento/ReligionRouter.js";
+import RolRouter from "./routers/mantenimiento/RolRouter.js";
+import EstadoCivilRouter from "./routers/mantenimiento/EstadoCivilRouter.js";
+import AreaPeRouter from "./routers/mantenimiento/AreaPeRouter.js";
+
+import UsuarioRouter from "./routers/principal/UsuarioRouter.js";
+import AlumnoRouter from "./routers/principal/AlumnoRouter.js";
+
+import DerivacionRouter from "./routers/principal/DerivacionRouter.js";
+import ConsultaPsRouter from "./routers/principal/ConsultaPsRouter.js";
+
+import CatCondRouter from "./routers/principal/diagnostico/CatCondRouter.js";
+import CondicionRouter from "./routers/principal/diagnostico/CondicionRouter.js";
+import DiagnosticoRouter from "./routers/principal/diagnostico/DiagnosticoRouter.js";
+
+import insertInitialData from "./insertInitialData.js";
+
+import AuthRouter from "./routers/AuthRouter.js";
 
 dotenv.config();
 
@@ -66,25 +64,26 @@ app.use(cors(
 
 
 app.use(express.json());
-app.use(RolRouter);
-app.use(UsuarioRouter);
-app.use(AuthRouter);
+
 app.use(ReligionRouter);
+app.use(RolRouter);
 app.use(EstadoCivilRouter);
 app.use(AreaPeRouter);
-app.use(instructorRouter);
-app.use(AulaRouter);
-app.use(TutorRouter);
+
+app.use(UsuarioRouter);
 app.use(AlumnoRouter);
-app.use(ListadoAulaRouter);
+
 app.use(DerivacionRouter);
-app.use(ParentescoRouter);
-app.use(RegistroFamiliarRouter);
-app.use(FamiliarRouter);
 app.use(ConsultaPsRouter);
+
+app.use(CatCondRouter);
+app.use(CondicionRouter);
+app.use(CondicionRouter);
 app.use(DiagnosticoRouter);
-app.use(CondicionRouter)
-app.use(CategoriaRouter);
+
+app.use(AuthRouter);
+
+
 
 store.sync(); //creando tabla sessions para almacenar las sesiones en la db y no perderlas al reiniciar servidor
 

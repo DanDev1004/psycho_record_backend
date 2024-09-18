@@ -1,0 +1,18 @@
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "adminpassword"
+}
+
+
+###
+
+GET http://localhost:5000/me
+Content-Type: "application/json"
+
+
+###
+DELETE http://localhost:5000/logout
+Content-Type: "application/json"

@@ -1,6 +1,5 @@
 import RegistroFamiliar from "../models/RegistroFamiliarModel.js";
 import Parentesco from "../models/ParentescoModel.js";
-import Alumno from "../models/AlumnoModel.js";
 
 export const obtenerTodos = async (req, res) => {
     try {

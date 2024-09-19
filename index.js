@@ -6,24 +6,24 @@ import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
 
 
-import ReligionRouter from "./routers/mantenimiento/ReligionRouter.js";
-import RolRouter from "./routers/mantenimiento/RolRouter.js";
-import EstadoCivilRouter from "./routers/mantenimiento/EstadoCivilRouter.js";
-import AreaPeRouter from "./routers/mantenimiento/AreaPeRouter.js";
+import ReligionRouter from "./routes/mantenimiento/ReligionRouter.js"
+import RolRouter from "./routes/mantenimiento/RolRouter.js";
+import EstadoCivilRouter from "./routes/mantenimiento/EstadoCivilRouter.js";
+import AreaPeRouter from "./routes/mantenimiento/AreaPeRouter.js";
 
-import UsuarioRouter from "./routers/principal/UsuarioRouter.js";
-import AlumnoRouter from "./routers/principal/AlumnoRouter.js";
+import UsuarioRouter from "./routes/principal/UsuarioRouter.js";
+import AlumnoRouter from "./routes/principal/AlumnoRouter.js";
 
-import DerivacionRouter from "./routers/principal/DerivacionRouter.js";
-import ConsultaPsRouter from "./routers/principal/ConsultaPsRouter.js";
+import DerivacionRouter from "./routes/principal/DerivacionRouter.js";
+import ConsultaPsRouter from "./routes/principal/ConsultaPsRouter.js";
 
-import CatCondRouter from "./routers/principal/diagnostico/CatCondRouter.js";
-import CondicionRouter from "./routers/principal/diagnostico/CondicionRouter.js";
-import DiagnosticoRouter from "./routers/principal/diagnostico/DiagnosticoRouter.js";
+import CatCondRouter from "./routes/principal/diagnostico/CatCondRouter.js";
+import CondicionRouter from "./routes/principal/diagnostico/CondicionRouter.js";
+import DiagnosticoRouter from "./routes/principal/diagnostico/DiagnosticoRouter.js";
 
 import insertInitialData from "./insertInitialData.js";
 
-import AuthRouter from "./routers/AuthRouter.js";
+import AuthRouter from "./routes/AuthRouter.js";
 
 dotenv.config();
 

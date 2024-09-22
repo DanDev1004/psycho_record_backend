@@ -1,0 +1,31 @@
+
+GET http://localhost:5000/diagnostico
+Content-Type: application/json
+
+### 
+GET http://localhost:5000/diagnostico/1
+Content-Type: application/json
+
+### 
+POST http://localhost:5000/diagnostico
+Content-Type: application/json
+
+{
+  "ID_CONSULTA_PS": 1,
+  "ID_CONDICION": 2,
+  "DESCRIPCION": "Diagnóstico de ansiedad leve"
+}
+
+### 
+PATCH http://localhost:5000/diagnostico/1
+Content-Type: application/json
+
+{
+  "ID_CONSULTA_PS": 1,
+  "ID_CONDICION": 2,
+  "DESCRIPCION": "Diagnóstico de ansiedad moderada - Actualizado"
+}
+
+### 
+DELETE http://localhost:5000/diagnostico/1
+Content-Type: application/json

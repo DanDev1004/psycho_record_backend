@@ -1,0 +1,12 @@
+====BACKEND=======
+npm init -y
+npm i express express-session mysql2 sequelize argon2 cors dotenv
+npm i connect-session-sequelize
+
+npm i -g nodemon //debes activar la ejecucion de scripts de manera global:
+
+powershell modo administrador(windows):
+Get-ExecutionPolicy //verifica la politica de ejecucion
+Set-ExecutionPolicy RemoteSigned //cambiala y dale a S
+
+nodemon index

@@ -1,0 +1,79 @@
+
+###APROBADO
+
+GET http://localhost:5000/alumno
+Content-Type: application/json
+
+###
+
+#Cambia al id correspondiente
+GET http://localhost:5000/alumno/22
+Content-Type: application/json
+
+###
+
+#Cambia al id correspondiente
+POST http://localhost:5000/buscarAlumno
+Content-Type: application/json
+
+{
+  "searchText": "87654321"
+}
+
+
+###
+
+POST http://localhost:5000/buscarPorDni
+Content-Type: : application/json
+
+{
+  "dniAlumno": "87654321"
+}
+
+###
+
+POST http://localhost:5000/alumno
+Content-Type: application/json
+
+{
+  "NOMBRES": "Emerson",
+  "APELLIDOS": "Alcantara",
+  "DNI": "22447700",
+  "SEXO": "M",
+  "TELEFONO": "987654321",
+  "ID_EC": 1,
+  "ID_RELIGION": 1,
+  "DIR_NAC": "Calle Falsa 123",
+  "FECH_NAC": "2000-01-01",
+  "DOMICILIO": "Avenida Siempre Viva 742",
+  "COD_ALUMNO": "A0001"
+}
+
+###
+
+#Cambia al id correspondiente
+PATCH http://localhost:5000/alumno/6
+Content-Type: application/json
+
+{
+  "NOMBRES": "Emerson",
+  "APELLIDOS": "Alcantara",
+  "DNI": "22447700",
+  "SEXO": "M",
+  "TELEFONO": "987654321",
+  "ID_EC": 2,
+  "ID_RELIGION": 2,
+  "DIR_NAC": "Calle Falsa 123",
+  "FECH_NAC": "2000-01-01",
+  "DOMICILIO": "Avenida Siempre Viva 742",
+  "COD_ALUMNO": "A0001"
+}
+
+###
+
+
+#Cambia al id correspondiente
+DELETE http://localhost:5000/alumno/3
+Content-Type: application/json
+
+

@@ -1,0 +1,34 @@
+
+GET http://localhost:5000/derivacion
+Content-Type: application/json
+###
+GET http://localhost:5000/derivacion/1
+
+### 
+POST http://localhost:5000/derivacion
+Content-Type: application/json
+
+{
+  "ID_USUARIO": 1,
+  "ID_TUTOR": 2,
+  "ID_ALUMNO": 3,
+  "MOTIVO": "Motivo de la derivación",
+  "URGENCIA": 1
+}
+
+###
+PATCH http://localhost:5000/derivacion/1
+Content-Type: application/json
+
+{
+  "ID_USUARIO": 1,
+  "ID_TUTOR": 2,
+  "ID_ALUMNO": 3,
+  "MOTIVO": "Motivo actualizado de la derivación",
+  "URGENCIA": 2,
+  "REVISADO": true
+}
+
+###
+DELETE http://localhost:5000/derivacion/1
+Content-Type: application/json

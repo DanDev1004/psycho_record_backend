@@ -1,0 +1,63 @@
+
+GET http://localhost:5000/usuario
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:5000/usuario/1
+Content-Type: application/json
+
+###
+
+
+POST http://localhost:5000/usuario
+Content-Type: application/json
+
+{
+  "DNI_USUARIO": "11122233",
+  "NOMBRE_USUARIO": "Juan",
+  "APELLIDO_USUARIO": "Pérez",
+  "USERNAME": "jperez",
+  "EMAIL": "jperez@example.com",
+  "TELEFONO":"987654321",
+  "PASSWORD_USER": "password123",
+  "CONFIRM_PASSWORD_USER": "password123",
+  "ID_ROL": 1
+}
+
+###
+
+
+#Cambia al id correspondiente
+PATCH http://localhost:5000/usuario/80
+Content-Type: application/json
+
+{
+  "DNI_USUARIO": "11122233",
+  "NOMBRE_USUARIO": "Juan juancho",
+  "APELLIDO_USUARIO": "Pérez",
+  "USERNAME": "jperez",
+  "EMAIL": "jperez@example.com",
+  "TELEFONO":"987654321",
+  "PASSWORD_USER": "password123",
+  "CONFIRM_PASSWORD_USER": "password123",
+  "ID_ROL": 3
+}
+
+###
+
+#Cambia al id correspondiente
+DELETE http://localhost:5000/usuario/80
+Content-Type: application/json
+
+
+###
+
+#Cambia al id correspondiente
+POST http://localhost:5000/buscarUsuario
+Content-Type: application/json
+
+{
+  "searchText": "Juan"
+}

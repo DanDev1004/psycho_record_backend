@@ -1,15 +1,16 @@
-import Usuario from "../models/UsuarioModel.js";
-import Rol from "../models/RolModel.js";
+import Usuario from "../models/principal/UsuarioModel.js";
+import Rol from "../models/mantenimiento/RolMoldel.js";
 import argon2 from "argon2";
 
 export const Login = async (req, res) =>{
     const user = await Usuario.findOne({
         where: {
-            EMAIL: req.body.email
+            EMAIL: req.body.email,
+            ESTADO: true
         }
     });
     if(!user) return res.status(404).json({msg: "Usuario no encontrado"});
-    const verificarContrasenia = await argon2.verify(user.USER_PASSWORD, req.body.password);
+    const verificarContrasenia = await argon2.verify(user.PASSWORD_USER, req.body.password);
     if(!verificarContrasenia){
         return res.status(400).json({msg: "Contraseña errónea"});
     }
@@ -39,7 +40,8 @@ export const Me = async (req, res) =>{
             }
         ],
         where: {
-            ID_USUARIO: req.session.userId
+            ID_USUARIO: req.session.userId,
+            ESTADO: true
         }
     });
     if(!user) return res.status(404).json({msg: "Usuario no encontrado"});

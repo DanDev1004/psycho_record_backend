@@ -12,7 +12,7 @@ export const obtenerTodos = async (req, res) => {
         
         if (req.session.role === 1) { 
             response = await ConsultaPs.findAll({
-                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
+                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'PARENTESCO', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
                 where: { ESTADO: true },
                 include: [
                     {
@@ -41,7 +41,7 @@ export const obtenerTodos = async (req, res) => {
             });
         } else if (req.session.role === 3) { 
             response = await ConsultaPs.findAll({
-                attributes: ['ID_CONSULTA_PS', 'ID_DERIVACION', 'FECHA_ATENCION', 'TIPO_DERIVACION', 'HORA_INICIO', 'HORA_FIN'],
+                attributes: ['ID_CONSULTA_PS', 'ID_DERIVACION', 'FECHA_ATENCION', 'TIPO_DERIVACION', 'PARENTESCO', 'HORA_INICIO', 'HORA_FIN'],
                 where: { ESTADO: true },
                 include: [
                     {
@@ -52,7 +52,7 @@ export const obtenerTodos = async (req, res) => {
             });
         } else { 
             response = await ConsultaPs.findAll({
-                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
+                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'PARENTESCO', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
                 where: {
                     ESTADO: true,
                     ID_USUARIO: req.session.userId 
@@ -92,6 +92,7 @@ export const obtenerTodos = async (req, res) => {
 
 
 
+
 export const obtenerPorId = async (req, res) => {
     try {
         const condicion = req.session.role === 1 ? { ID_CONSULTA_PS: req.params.id, ESTADO: true } : {
@@ -101,7 +102,7 @@ export const obtenerPorId = async (req, res) => {
         };
 
         const response = await ConsultaPs.findOne({
-            attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'FECHA_ATENCION', 'FAMILIAR', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
+            attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'PARENTESCO', 'FECHA_ATENCION', 'FAMILIAR', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
             where: condicion,
             include: [
                 {
@@ -134,8 +135,9 @@ export const obtenerPorId = async (req, res) => {
 };
 
 
+
 export const crear = async (req, res) => {
-    const { ID_USUARIO, TIPO_DERIVACION, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
+    const { ID_USUARIO, TIPO_DERIVACION, PARENTESCO, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
 
     const transaction = await db.transaction();
 
@@ -143,6 +145,7 @@ export const crear = async (req, res) => {
         await ConsultaPs.create({
             ID_USUARIO,
             TIPO_DERIVACION,
+            PARENTESCO,
             ID_ALUMNO,
             ID_DERIVACION,
             FAMILIAR,
@@ -181,8 +184,9 @@ export const crear = async (req, res) => {
     }
 };
 
+
 export const actualizar = async (req, res) => {
-    const { ID_USUARIO, TIPO_DERIVACION, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
+    const { ID_USUARIO, TIPO_DERIVACION, PARENTESCO, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
 
     const transaction = await db.transaction();
 
@@ -203,6 +207,7 @@ export const actualizar = async (req, res) => {
         await ConsultaPs.update({
             ID_USUARIO,
             TIPO_DERIVACION,
+            PARENTESCO,
             ID_ALUMNO,
             ID_DERIVACION,
             FAMILIAR,
@@ -231,6 +236,7 @@ export const actualizar = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
 
 export const eliminar = async (req, res) => {
     const transaction = await db.transaction();
@@ -283,7 +289,7 @@ export const buscar = async (req, res) => {
         }
 
         const response = await ConsultaPs.findAll({
-            attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
+            attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'PARENTESCO', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
             where: condicion,
             include: [
                 {

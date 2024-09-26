@@ -136,3 +136,34 @@ export const eliminar = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
+export const obtenerDiagnosticosPorConsulta = async (req, res) => {
+    try {
+        const { id } = req.params;  
+
+        const response = await Diagnostico.findAll({
+            where: {
+                ID_CONSULTA_PS: id,  
+                ESTADO: true  
+            },
+            include: [
+                {
+                    model: Condicion,  
+                    attributes: ['NOMBRE_CONDICION']
+                },
+                {
+                    model: ConsultaPs, 
+                    attributes: ['FECHA_ATENCION', 'TIPO_DERIVACION']
+                }
+            ]
+        });
+
+        if (!response || response.length === 0) {
+            return res.status(404).json({ msg: "No se encontraron diagnósticos para esta consulta psicológica" });
+        }
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};

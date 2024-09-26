@@ -94,7 +94,6 @@ export const actualizar = async (req, res) => {
             return res.status(404).json({ msg: "Condición no encontrada" });
         }
 
-        // Verificar si el nombre ya existe y pertenece a otra condición activa
         if (condicion.NOMBRE_CONDICION !== NOMBRE_CONDICION.trim()) {
             const existeCondicion = await Condicion.findOne({
                 where: {
@@ -155,3 +154,24 @@ export const eliminar = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
+
+export const obtenerPorCategoria = async (req, res) => {
+    try {
+        const { idCatCond } = req.params;
+        const response = await Condicion.findAll({
+            attributes: ['ID_CONDICION', 'NOMBRE_CONDICION'],
+            where: {
+                ID_CAT_COND: idCatCond,
+                ESTADO: true
+            }
+        });
+        if (!response) {
+            return res.status(404).json({ msg: "Condiciones no encontradas para esta categoría" });
+        }
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+

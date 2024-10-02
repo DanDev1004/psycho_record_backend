@@ -12,7 +12,7 @@ import { verificarUsuarioLogeado, adminPermiso, admin_psico_tutor_permiso } from
 const AlumnoRouter = express.Router();
 
 AlumnoRouter.get('/alumno', verificarUsuarioLogeado, admin_psico_tutor_permiso, obtenerTodos);
-AlumnoRouter.get('/alumno/:id', verificarUsuarioLogeado, adminPermiso, obtenerPorId);
+AlumnoRouter.get('/alumno/:id', verificarUsuarioLogeado, admin_psico_tutor_permiso, obtenerPorId);
 AlumnoRouter.post('/alumno', verificarUsuarioLogeado, adminPermiso, crear);
 AlumnoRouter.patch('/alumno/:id', verificarUsuarioLogeado, adminPermiso, actualizar);
 AlumnoRouter.delete('/alumno/:id', verificarUsuarioLogeado, adminPermiso, eliminar);

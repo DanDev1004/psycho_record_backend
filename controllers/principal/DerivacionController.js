@@ -17,7 +17,7 @@ export const obtenerTodos = async (req, res) => {
                 include: [
                     {
                         model: Usuario,
-                        attributes: ['NOMBRE_USUARIO', 'APELLIDO_USUARIO']
+                        attributes: ['ID_USUARIO','NOMBRE_USUARIO', 'APELLIDO_USUARIO']
                     },
                     {
                         model: Alumno,
@@ -32,7 +32,7 @@ export const obtenerTodos = async (req, res) => {
                 include: [
                     {
                         model: Usuario,
-                        attributes: ['NOMBRE_USUARIO', 'APELLIDO_USUARIO']
+                        attributes: ['ID_USUARIO','NOMBRE_USUARIO', 'APELLIDO_USUARIO']
                     },
                     {
                         model: Alumno,
@@ -58,7 +58,7 @@ export const obtenerPorId = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['NOMBRE_USUARIO', 'APELLIDO_USUARIO', 'EMAIL']
+                    attributes: ['ID_USUARIO','NOMBRE_USUARIO', 'APELLIDO_USUARIO', 'EMAIL']
                 },
                 {
                     model: Alumno,

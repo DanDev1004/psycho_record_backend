@@ -27,10 +27,7 @@ const ConsultaPs = db.define('CONSULTA_PS', {
             isIn: [[1, 2, 3]]  // 1 => AUTONOMO, 2 => PARIENTE, 3 => INSTRUCTOR
         }
     },
-    PARENTESCO: {
-        type: DataTypes.SMALLINT,
-        allowNull: true
-    },
+
     ID_ALUMNO: {
         type: DataTypes.INTEGER,
         allowNull: true,

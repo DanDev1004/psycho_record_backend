@@ -5,7 +5,8 @@ import {
     crear, 
     actualizar, 
     eliminar,
-    buscar
+    buscar,
+    obtenerConsultaPorDerivacion
 } from "../../controllers/principal/DerivacionController.js";
 
 import { verificarUsuarioLogeado, admin_psico_tutor_permiso } from "../../middleware/AuthUser.js";
@@ -19,4 +20,5 @@ DerivacionRouter.patch('/derivacion/:id', verificarUsuarioLogeado,admin_psico_tu
 DerivacionRouter.delete('/derivacion/:id', verificarUsuarioLogeado,admin_psico_tutor_permiso, eliminar);
 DerivacionRouter.post('/derivacion/buscar', verificarUsuarioLogeado,admin_psico_tutor_permiso, buscar);
 
+DerivacionRouter.get('/derivacion/:id/consulta', obtenerConsultaPorDerivacion);
 export default DerivacionRouter;

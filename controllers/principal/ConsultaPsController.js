@@ -90,9 +90,6 @@ export const obtenerTodos = async (req, res) => {
     }
 };
 
-
-
-
 export const obtenerPorId = async (req, res) => {
     try {
         const condicion = req.session.role === 1 ? { ID_CONSULTA_PS: req.params.id, ESTADO: true } : {
@@ -133,8 +130,6 @@ export const obtenerPorId = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
-
-
 
 export const crear = async (req, res) => {
     const { ID_USUARIO, TIPO_DERIVACION, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
@@ -182,7 +177,6 @@ export const crear = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
-
 
 export const actualizar = async (req, res) => {
     const { ID_USUARIO, TIPO_DERIVACION, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
@@ -235,7 +229,6 @@ export const actualizar = async (req, res) => {
     }
 };
 
-
 export const eliminar = async (req, res) => {
     const transaction = await db.transaction();
 
@@ -267,7 +260,6 @@ export const eliminar = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
-
 
 export const buscar = async (req, res) => {
     try {
@@ -321,27 +313,26 @@ export const buscar = async (req, res) => {
     }
 };
 
-
 export const filtrarPorFechaAnio = async (req, res) => {
     const { mes, anio } = req.body;
     if (!mes || !anio) {
         return res.status(400).json({ msg: "Mes y año son requeridos" });
     }
 
-    const primerDia = new Date(anio, mes - 1, 1);  // Primer día del mes
-    const ultimoDia = new Date(anio, mes, 0);  // Último día del mes
+    const primerDia = new Date(Date.UTC(anio, mes - 1, 1));
+    const ultimoDia = new Date(Date.UTC(anio, mes, 0));
 
     try {
         const condicion = {
             ESTADO: true,
             FECHA_ATENCION: {
-                [Op.gte]: primerDia,
-                [Op.lt]: ultimoDia
+                [Op.gte]: primerDia.toISOString(),
+                [Op.lte]: ultimoDia.toISOString()
             }
         };
 
         if (req.session.role !== 1) {
-            condicion.ID_USUARIO = req.session.userId; 
+            condicion.ID_USUARIO = req.session.userId;
         }
 
         const response = await ConsultaPs.findAll({
@@ -360,6 +351,7 @@ export const filtrarPorFechaAnio = async (req, res) => {
                 }
             ]
         });
+
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ msg: error.message });

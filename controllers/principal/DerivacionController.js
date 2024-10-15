@@ -1,6 +1,7 @@
 import Derivacion from "../../models/principal/DerivacionModel.js";
 import Usuario from "../../models/principal/UsuarioModel.js";
 import Alumno from "../../models/principal/AlumnoModel.js";
+import ConsultaPs from "../../models/principal/ConsultaPsModel.js";
 import { Op } from "sequelize";
 
 export const obtenerTodos = async (req, res) => {
@@ -124,7 +125,6 @@ export const actualizar = async (req, res) => {
     }
 };
 
-
 export const eliminar = async (req, res) => {
     const derivacion = await Derivacion.findOne({
         where: {
@@ -186,6 +186,41 @@ export const buscar = async (req, res) => {
         });
 
         res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
+export const obtenerConsultaPorDerivacion = async (req, res) => {
+    try {
+        const derivacion = await Derivacion.findOne({
+            where: {
+                ID_DERIVACION: req.params.id, 
+                ESTADO: true
+            }
+        });
+
+        if (!derivacion) {
+            return res.status(404).json({ msg: "No se encontró la derivación" });
+        }
+
+        const consulta = await ConsultaPs.findOne({
+            where: {
+                ID_DERIVACION: derivacion.ID_DERIVACION,
+                ESTADO: true
+            },
+            attributes: ['FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN']
+        });
+
+        if (!consulta) {
+            return res.status(404).json({ msg: "No se encontró una consulta relacionada con la derivación" });
+        }
+
+        res.status(200).json({
+            fecha_atencion: consulta.FECHA_ATENCION,
+            hora_inicio: consulta.HORA_INICIO,
+            hora_fin: consulta.HORA_FIN
+        });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }

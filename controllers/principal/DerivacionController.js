@@ -2,6 +2,7 @@ import Derivacion from "../../models/principal/DerivacionModel.js";
 import Usuario from "../../models/principal/UsuarioModel.js";
 import Alumno from "../../models/principal/AlumnoModel.js";
 import ConsultaPs from "../../models/principal/ConsultaPsModel.js";
+import AreaPe from "../../models/mantenimiento/AreaPeModel.js";
 import { Op } from "sequelize";
 
 export const obtenerTodos = async (req, res) => {
@@ -22,7 +23,13 @@ export const obtenerTodos = async (req, res) => {
                     },
                     {
                         model: Alumno,
-                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI']
+                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI'],
+                        include: [
+                            {
+                                model: AreaPe,
+                                attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
+                            }
+                        ]
                     }
                 ]
             });
@@ -37,7 +44,13 @@ export const obtenerTodos = async (req, res) => {
                     },
                     {
                         model: Alumno,
-                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI']
+                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI'],
+                        include: [
+                            {
+                                model: AreaPe,
+                                attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
+                            }
+                        ]
                     }
                 ]
             });
@@ -63,7 +76,13 @@ export const obtenerPorId = async (req, res) => {
                 },
                 {
                     model: Alumno,
-                    attributes: ['NOMBRES', 'APELLIDOS', 'DNI']
+                    attributes: ['NOMBRES', 'APELLIDOS', 'DNI'],
+                    include: [
+                        {
+                            model: AreaPe,
+                            attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
+                        }
+                    ]
                 }
             ]
         });

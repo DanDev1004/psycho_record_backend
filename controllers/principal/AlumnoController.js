@@ -20,7 +20,7 @@ export const obtenerTodos = async (req, res) => {
                 },
                 {
                     model: AreaPe,
-                    attributes: ['NOMBRE_AREA_PE']
+                    attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
                 }
             ]
         });
@@ -49,7 +49,7 @@ export const obtenerPorId = async (req, res) => {
                 },
                 {
                     model: AreaPe,
-                    attributes: ['NOMBRE_AREA_PE']
+                    attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
                 }
             ]
         });
@@ -192,7 +192,7 @@ export const buscar = async (req, res) => {
                 },
                 {
                     model: AreaPe,
-                    attributes: ['NOMBRE_AREA_PE']
+                    attributes: ['ID_AREA_PE','NOMBRE_AREA_PE']
                 }
             ],
             where: {

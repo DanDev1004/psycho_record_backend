@@ -7,12 +7,12 @@ import {
     eliminar
 } from "../../controllers/mantenimiento/AreaPeController.js";
 
-import { verificarUsuarioLogeado, adminPermiso } from "../../middleware/AuthUser.js";
+import { verificarUsuarioLogeado,adminPermiso, admin_psico_tutor_permiso } from "../../middleware/AuthUser.js";
 
 const AreaPeRouter = express.Router();
 
-AreaPeRouter.get('/areape',verificarUsuarioLogeado,adminPermiso,obtenerTodos);
-AreaPeRouter.get('/areape/:id',verificarUsuarioLogeado,adminPermiso, obtenerPorId);
+AreaPeRouter.get('/areape',verificarUsuarioLogeado, admin_psico_tutor_permiso ,obtenerTodos);
+AreaPeRouter.get('/areape/:id',verificarUsuarioLogeado, admin_psico_tutor_permiso , obtenerPorId);
 AreaPeRouter.post('/areape',verificarUsuarioLogeado,adminPermiso, crear);
 AreaPeRouter.patch('/areape/:id',verificarUsuarioLogeado,adminPermiso, actualizar);
 AreaPeRouter.delete('/areape/:id',verificarUsuarioLogeado,adminPermiso, eliminar);

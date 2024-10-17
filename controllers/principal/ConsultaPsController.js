@@ -12,7 +12,7 @@ export const obtenerTodos = async (req, res) => {
         
         if (req.session.role === 1) { 
             response = await ConsultaPs.findAll({
-                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION', 'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
+                attributes: ['ID_CONSULTA_PS', 'TIPO_DERIVACION',  'FAMILIAR', 'FECHA_ATENCION', 'HORA_INICIO', 'HORA_FIN', 'ASISTENCIA', 'MOTIVO', 'PROBLEMA', 'RECOMENDACION', 'ASPECTO_FISICO', 'ASEO_PERSONAL', 'CONDUCTA', 'ESTADO'],
                 where: { ESTADO: true },
                 include: [
                     {
@@ -21,7 +21,7 @@ export const obtenerTodos = async (req, res) => {
                     },
                     {
                         model: Alumno,
-                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI']
+                        attributes: ['ID_ALUMNO','NOMBRES', 'APELLIDOS', 'DNI']
                     },
                     {
                         model: Derivacion,
@@ -64,7 +64,7 @@ export const obtenerTodos = async (req, res) => {
                     },
                     {
                         model: Alumno,
-                        attributes: ['NOMBRES', 'APELLIDOS', 'DNI']
+                        attributes: ['ID_ALUMNO','NOMBRES', 'APELLIDOS', 'DNI']
                     },
                     {
                         model: Derivacion,
@@ -89,8 +89,6 @@ export const obtenerTodos = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
-
-
 
 export const obtenerPorId = async (req, res) => {
     try {
@@ -132,7 +130,6 @@ export const obtenerPorId = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
-
 
 export const crear = async (req, res) => {
     const { ID_USUARIO, TIPO_DERIVACION, ID_ALUMNO, ID_DERIVACION, FAMILIAR, TELEFONO_FAMILIAR, FECHA_ATENCION, HORA_INICIO, HORA_FIN, ASISTENCIA, MOTIVO, PROBLEMA, RECOMENDACION, ASPECTO_FISICO, ASEO_PERSONAL, CONDUCTA } = req.body;
@@ -264,7 +261,6 @@ export const eliminar = async (req, res) => {
     }
 };
 
-
 export const buscar = async (req, res) => {
     try {
         const { searchText } = req.body;
@@ -272,9 +268,9 @@ export const buscar = async (req, res) => {
         const condicion = {
             ESTADO: true,
             [Op.or]: [
-                { '$Alumno.NOMBRES$': { [Op.like]: `%${searchText}%` } },
-                { '$Alumno.APELLIDOS$': { [Op.like]: `%${searchText}%` } },
-                { '$Alumno.DNI$': { [Op.like]: `%${searchText}%` } }
+                { '$ALUMNO.NOMBRES$': { [Op.like]: `%${searchText}%` } },
+                { '$ALUMNO.APELLIDOS$': { [Op.like]: `%${searchText}%` } },
+                { '$ALUMNO.DNI$': { [Op.like]: `%${searchText}%` } }
             ]
         };
 
@@ -317,27 +313,26 @@ export const buscar = async (req, res) => {
     }
 };
 
-
 export const filtrarPorFechaAnio = async (req, res) => {
     const { mes, anio } = req.body;
     if (!mes || !anio) {
         return res.status(400).json({ msg: "Mes y año son requeridos" });
     }
 
-    const primerDia = new Date(anio, mes - 1, 1);  // Primer día del mes
-    const ultimoDia = new Date(anio, mes, 0);  // Último día del mes
+    const primerDia = new Date(Date.UTC(anio, mes - 1, 1));
+    const ultimoDia = new Date(Date.UTC(anio, mes, 0));
 
     try {
         const condicion = {
             ESTADO: true,
             FECHA_ATENCION: {
-                [Op.gte]: primerDia,
-                [Op.lt]: ultimoDia
+                [Op.gte]: primerDia.toISOString(),
+                [Op.lte]: ultimoDia.toISOString()
             }
         };
 
         if (req.session.role !== 1) {
-            condicion.ID_USUARIO = req.session.userId; 
+            condicion.ID_USUARIO = req.session.userId;
         }
 
         const response = await ConsultaPs.findAll({
@@ -356,6 +351,7 @@ export const filtrarPorFechaAnio = async (req, res) => {
                 }
             ]
         });
+
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ msg: error.message });

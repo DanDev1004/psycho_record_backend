@@ -52,6 +52,7 @@ const Derivacion = db.define('DERIVACION', {
 });
 
 Usuario.hasMany(Derivacion, { foreignKey: 'ID_USUARIO' });
+
 Derivacion.belongsTo(Usuario, { foreignKey: 'ID_USUARIO' });
 
 Alumno.hasMany(Derivacion, { foreignKey: 'ID_ALUMNO' });

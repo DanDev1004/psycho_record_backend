@@ -90,20 +90,32 @@ export const crear = async (req, res) => {
     }
 
     try {
-        const existeUsuario = await Usuario.findOne({
-            where: {
-                [Op.or]: [
-                    { DNI_USUARIO: DNI_USUARIO },
-                    { USERNAME: USERNAME },
-                    { EMAIL: EMAIL },
-                    { TELEFONO: TELEFONO }
-                ],
-                ESTADO: true
-            }
+        const existeDNI = await Usuario.findOne({
+            where: { DNI_USUARIO: DNI_USUARIO, ESTADO: true }
         });
+        if (existeDNI) {
+            return res.status(400).json({ msg: "El DNI ya está en uso" });
+        }
 
-        if (existeUsuario) {
-            return res.status(400).json({ msg: "DNI, Nombre de usuario, Email o telefono ya están en uso" });
+        const existeUsername = await Usuario.findOne({
+            where: { USERNAME: USERNAME, ESTADO: true }
+        });
+        if (existeUsername) {
+            return res.status(400).json({ msg: "El nombre de usuario ya está en uso" });
+        }
+
+        const existeEmail = await Usuario.findOne({
+            where: { EMAIL: EMAIL, ESTADO: true }
+        });
+        if (existeEmail) {
+            return res.status(400).json({ msg: "El email ya está en uso" });
+        }
+
+        const existeTelefono = await Usuario.findOne({
+            where: { TELEFONO: TELEFONO, ESTADO: true }
+        });
+        if (existeTelefono) {
+            return res.status(400).json({ msg: "El teléfono ya está en uso" });
         }
 
         const hashPassword = await argon2.hash(PASSWORD_USER);

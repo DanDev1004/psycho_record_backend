@@ -179,9 +179,9 @@ export const buscar = async (req, res) => {
         let condicion = {
             ESTADO: true,
             [Op.or]: [
-                { '$Alumno.NOMBRES$': { [Op.like]: `%${searchText}%` } },
-                { '$Alumno.APELLIDOS$': { [Op.like]: `%${searchText}%` } },
-                { '$Alumno.DNI$': { [Op.like]: `%${searchText}%` } }
+                { '$ALUMNO.NOMBRES$': { [Op.like]: `%${searchText}%` } },
+                { '$ALUMNO.APELLIDOS$': { [Op.like]: `%${searchText}%` } },
+                { '$ALUMNO.DNI$': { [Op.like]: `%${searchText}%` } }
             ]
         };
 

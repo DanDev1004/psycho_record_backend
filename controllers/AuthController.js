@@ -32,7 +32,7 @@ export const Me = async (req, res) =>{
         return res.status(401).json({msg: "Ingrese a su cuenta"});
     }
     const user = await Usuario.findOne({
-        attributes:['ID_USUARIO','DNI_USUARIO','NOMBRE_USUARIO','APELLIDO_USUARIO','USERNAME','EMAIL','ID_ROL'],
+        attributes:['ID_USUARIO','DNI_USUARIO','NOMBRE_USUARIO','APELLIDO_USUARIO','USERNAME','EMAIL','ID_ROL', 'GENERO'],
         include: [
             {
                 model: Rol,

@@ -39,6 +39,7 @@ const store = new sessionStore({ db: db });
         console.log("Base de datos sincronizada y datos iniciales insertados");
     } catch (error) {
         console.error("Error durante la sincronización de la base de datos:", error);
+        process.exit(1); 
     }
 })();
 
@@ -50,17 +51,16 @@ app.use(session(
         saveUninitialized: true,
         store: store,
         cookie: {
-            secure: 'auto', //Si se usa http automaticamente será false, si es https será true
+            secure: 'auto', 
         }
+        
     }
 ));
 
-app.use(cors(
-    {
-        credentials: true,
-        origin: 'http://localhost:3000'
-    }
-));
+app.use(cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL  
+}));
 
 
 app.use(express.json());

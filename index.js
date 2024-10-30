@@ -35,7 +35,7 @@ const store = new sessionStore({ db: db });
 (async () => {
     try {
         await db.sync(); //Sincronizar los modelos con la base de datos
-        await insertInitialData();
+       //await insertInitialData();
         console.log("Base de datos sincronizada y datos iniciales insertados");
     } catch (error) {
         console.error("Error durante la sincronización de la base de datos:", error);

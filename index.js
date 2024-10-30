@@ -44,21 +44,17 @@ const store = new sessionStore({ db: db });
 })();
 
 
-app.use(session(
-    {
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        store: store,
-        cookie: {
-            secure: false,  
-            httpOnly: true,
-            sameSite: 'lax',
-        }
-
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: store,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',  
+        httpOnly: true,
+        sameSite: 'lax',
     }
-));
-
+}));
 
 app.use(cors(
     {

@@ -35,7 +35,7 @@ const Derivacion = db.define('DERIVACION', {
         type: DataTypes.SMALLINT,
         allowNull: false,
         validate: {
-            isIn: [[1, 2, 3]]  // 1 => Baja, 2 => Media, 3 => Alta
+            isIn: [[1, 2, 3]]  //1 => Baja, 2 => Media, 3 => Alta
         }
     },
     RECIBIDO: {

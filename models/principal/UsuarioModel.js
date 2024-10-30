@@ -56,6 +56,14 @@ const Usuario = db.define('USUARIO', {
             notEmpty: true
         }
     },
+    GENERO: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            isIn: [[1, 2]] 
+        },
+        comment: "1 = Masculino, 2 = Femenino"
+    },
     ID_ROL: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -24,7 +24,7 @@ const ConsultaPs = db.define('CONSULTA_PS', {
         type: DataTypes.SMALLINT,
         allowNull: false,
         validate: {
-            isIn: [[1, 2, 3]]  // 1 => AUTONOMO, 2 => PARIENTE, 3 => INSTRUCTOR
+            isIn: [[1, 2, 3]]  //1 => AUTONOMO, 2 => PARIENTE, 3 => INSTRUCTOR
         }
     },
 
@@ -68,7 +68,7 @@ const ConsultaPs = db.define('CONSULTA_PS', {
         type: DataTypes.SMALLINT,
         allowNull: false,
         validate: {
-            isIn: [[1, 2, 3]]  // 1 => pendiente, 2 => asistido, 3 => no asistido
+            isIn: [[1, 2, 3]]  //1 => pendiente, 2 => asistido, 3 => no asistido
         }
     },
     MOTIVO: {

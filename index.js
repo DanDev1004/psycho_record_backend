@@ -34,7 +34,7 @@ const store = new sessionStore({ db: db });
 
 (async () => {
     try {
-        await db.sync(); // Sincronizar los modelos con la base de datos
+        await db.sync(); //Sincronizar los modelos con la base de datos
         await insertInitialData();
         console.log("Base de datos sincronizada y datos iniciales insertados");
     } catch (error) {
@@ -58,7 +58,7 @@ app.use(session(
 app.use(cors(
     {
         credentials: true,
-        origin: 'http://localhost:3000'
+        origin: process.env.CLIENT_URL
     }
 ));
 

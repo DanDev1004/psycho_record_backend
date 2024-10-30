@@ -7,8 +7,8 @@ GET http://localhost:5000/consulta/1
 Content-Type: application/json
 
 ### 
-// 1=>AUTONOMO 2=> PARIENTE 3=> INSTRUCTOR
-//  1=>pendiente ; 2=>asistido ; 3=> no asistido
+//1=>AUTONOMO 2=> PARIENTE 3=> INSTRUCTOR
+//1=>pendiente ; 2=>asistido ; 3=> no asistido
 POST http://localhost:5000/consulta
 Content-Type: application/json
 

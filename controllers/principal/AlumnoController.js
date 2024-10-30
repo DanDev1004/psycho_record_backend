@@ -66,15 +66,14 @@ export const crear = async (req, res) => {
         const existeAlumno = await Alumno.findOne({
             where: {
                 [Op.or]: [
-                    { DNI: DNI },
-                    { TELEFONO: TELEFONO }
+                    { DNI: DNI }
                 ],
                 ESTADO: true
             }
         });
 
         if (existeAlumno) {
-            return res.status(400).json({ msg: "DNI o telefono ya está en uso" });
+            return res.status(400).json({ msg: "DNI ya está en uso" });
         }
 
         await Alumno.create({
@@ -115,14 +114,13 @@ export const actualizar = async (req, res) => {
         const existeAlumno = await Alumno.findOne({
             where: {
                 [Op.or]: [
-                    { DNI: DNI, ESTADO: true, ID_ALUMNO: { [Op.ne]: req.params.id } },
-                    { TELEFONO: TELEFONO, ESTADO: true, ID_ALUMNO: { [Op.ne]: req.params.id } }
+                    { DNI: DNI, ESTADO: true, ID_ALUMNO: { [Op.ne]: req.params.id } }
                 ]
             }
         });
 
         if (existeAlumno) {
-            return res.status(400).json({ msg: "DNI o telefono ya está en uso" });
+            return res.status(400).json({ msg: "DNI ya está en uso" });
         }
 
         await Alumno.update({
@@ -200,7 +198,8 @@ export const buscar = async (req, res) => {
                 [Op.or]: [
                     { DNI: { [Op.like]: `%${searchText}%` } },
                     { NOMBRES: { [Op.like]: `%${searchText}%` } },
-                    { APELLIDOS: { [Op.like]: `%${searchText}%` } }
+                    { APELLIDOS: { [Op.like]: `%${searchText}%` } },
+                    { '$AREA_PE.NOMBRE_AREA_PE$': { [Op.like]: `%${searchText}%` } }
                 ]
             }
         });

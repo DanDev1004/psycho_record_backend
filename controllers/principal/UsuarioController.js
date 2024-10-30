@@ -51,6 +51,24 @@ export const obtenerPorId = async (req, res) => {
 export const buscar = async (req, res) => {
     try {
         const { searchText } = req.body;
+
+        const condicionEstado = {
+            ID_USUARIO: {
+                [Op.ne]: req.session.userId
+            }
+        };
+
+        if (searchText) {
+            condicionEstado[Op.or] = [
+                { DNI_USUARIO: { [Op.like]: `%${searchText}%` } },
+                { NOMBRE_USUARIO: { [Op.like]: `%${searchText}%` } },
+                { APELLIDO_USUARIO: { [Op.like]: `%${searchText}%` } },
+                { USERNAME: { [Op.like]: `%${searchText}%` } }
+            ];
+        } else {
+            condicionEstado.ESTADO = true;
+        }
+
         const response = await Usuario.findAll({
             attributes: [
                 'ID_USUARIO', 'DNI_USUARIO', 'NOMBRE_USUARIO', 'APELLIDO_USUARIO', 
@@ -62,18 +80,7 @@ export const buscar = async (req, res) => {
                     attributes: ['NOMBRE_ROL']
                 }
             ],
-            where: {
-                ID_USUARIO: {
-                    [Op.ne]: req.session.userId
-                },
-                ESTADO: true,
-                [Op.or]: [
-                    { DNI_USUARIO: { [Op.like]: `%${searchText}%` } },
-                    { NOMBRE_USUARIO: { [Op.like]: `%${searchText}%` } },
-                    { APELLIDO_USUARIO: { [Op.like]: `%${searchText}%` } },
-                    { USERNAME: { [Op.like]: `%${searchText}%` } }
-                ]
-            }
+            where: condicionEstado
         });
         res.status(200).json(response);
     } catch (error) {
@@ -108,10 +115,7 @@ export const crear = async (req, res) => {
             return res.status(400).json({ msg: "El email ya está en uso" });
         }
 
-        const existeTelefono = await Usuario.findOne({ where: { TELEFONO, ESTADO: true } });
-        if (existeTelefono) {
-            return res.status(400).json({ msg: "El teléfono ya está en uso" });
-        }
+        
 
         const hashPassword = await argon2.hash(PASSWORD_USER);
         await Usuario.create({
@@ -149,14 +153,13 @@ export const actualizar = async (req, res) => {
                 [Op.or]: [
                     { DNI_USUARIO, ESTADO: true, ID_USUARIO: { [Op.ne]: req.params.id } },
                     { USERNAME, ESTADO: true, ID_USUARIO: { [Op.ne]: req.params.id } },
-                    { EMAIL, ESTADO: true, ID_USUARIO: { [Op.ne]: req.params.id } },
-                    { TELEFONO, ESTADO: true, ID_USUARIO: { [Op.ne]: req.params.id } }
+                    { EMAIL, ESTADO: true, ID_USUARIO: { [Op.ne]: req.params.id } }
                 ]
             }
         });
 
         if (existeUsuario) {
-            return res.status(400).json({ msg: "DNI, Nombre de usuario, Email o teléfono ya están en uso" });
+            return res.status(400).json({ msg: "DNI, Nombre de usuario, Email  ya están en uso" });
         }
 
         let hashPassword;
@@ -210,3 +213,30 @@ export const eliminar = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
+
+
+export const activarUsuario = async (req, res) => {
+    try {
+        const user = await Usuario.findOne({
+            where: {
+                ID_USUARIO: req.params.id,
+                ESTADO: false  
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ msg: "Usuario no encontrado o ya activado" });
+        }
+        
+        await Usuario.update(
+            { ESTADO: true },
+            { where: { ID_USUARIO: user.ID_USUARIO } }
+        );
+
+        res.status(200).json({ msg: "Usuario activado exitosamente" });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+

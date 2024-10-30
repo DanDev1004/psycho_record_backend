@@ -1,4 +1,5 @@
 import Diagnostico from "../../../models/principal/diagnostico/DiagnosticoModel.js";
+import CatCond from "../../../models/principal/diagnostico/CatCondModel.js";
 import Condicion from "../../../models/principal/diagnostico/CondicionModel.js";
 import ConsultaPs from "../../../models/principal/ConsultaPsModel.js";
 import db from "../../../config/Database.js";
@@ -11,7 +12,13 @@ export const obtenerTodos = async (req, res) => {
             include: [
                 {
                     model: Condicion,
-                    attributes: ['NOMBRE_CONDICION']
+                    attributes: ['NOMBRE_CONDICION'],
+                    include: [
+                        {
+                            model: CatCond,
+                            attributes: ['NOMBRE_CAT_COND']
+                        }
+                    ]
                 },
                 {
                     model: ConsultaPs,
@@ -149,7 +156,13 @@ export const obtenerDiagnosticosPorConsulta = async (req, res) => {
             include: [
                 {
                     model: Condicion,  
-                    attributes: ['NOMBRE_CONDICION']
+                    attributes: ['NOMBRE_CONDICION'],
+                    include: [
+                        {
+                            model: CatCond,
+                            attributes: ['NOMBRE_CAT_COND']
+                        }
+                    ]
                 },
                 {
                     model: ConsultaPs, 

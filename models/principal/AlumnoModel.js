@@ -37,7 +37,7 @@ const Alumno = db.define('ALUMNO', {
         type: DataTypes.CHAR(1),
         allowNull: false,
         validate: {
-            isIn: [['M', 'F']] // M => Masculino, F => Femenino
+            isIn: [['M', 'F']] //M => Masculino, F => Femenino
         }
     },
     TELEFONO: {
@@ -79,7 +79,7 @@ const Alumno = db.define('ALUMNO', {
         type: DataTypes.CHAR(1),
         allowNull: false,
         validate: {
-            isIn: [['M', 'T']] // M => Mañana, T => Tarde
+            isIn: [['M', 'T']] //M => Mañana, T => Tarde
         }
     },
     DIR_NAC: {

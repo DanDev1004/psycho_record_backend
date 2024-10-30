@@ -21,7 +21,7 @@ import CatCondRouter from "./routes/principal/diagnostico/CatCondRouter.js";
 import CondicionRouter from "./routes/principal/diagnostico/CondicionRouter.js";
 import DiagnosticoRouter from "./routes/principal/diagnostico/DiagnosticoRouter.js";
 
-import insertInitialData from "./insertInitialData.js";
+//import insertInitialData from "./insertInitialData.js";
 
 import AuthRouter from "./routes/AuthRouter.js";
 

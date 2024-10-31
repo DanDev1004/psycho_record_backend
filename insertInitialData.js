@@ -31,6 +31,7 @@ async function insertInitialData() {
                 NOMBRE_USUARIO: 'Admin',
                 APELLIDO_USUARIO: 'User',
                 USERNAME: 'admin',
+                GENERO: 1,
                 EMAIL: 'admin@gmail.com',
                 PASSWORD_USER: hashedPassword,
                 ID_ROL: 1 

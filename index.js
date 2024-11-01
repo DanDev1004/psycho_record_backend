@@ -50,9 +50,9 @@ app.use(session({
     saveUninitialized: true,
     store: store,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',  
+        secure: process.env.COOKIE_SECURE === 'true',  //las variables de entorno siempre se leen como cadena, asi que aqui comparamos a otra cadena de manera que retorne un booleano
         httpOnly: true,
-        sameSite: 'none',
+        sameSite: process.env.COOKIE_SAMESITE,
     }
 }));
 

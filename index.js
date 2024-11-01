@@ -21,7 +21,7 @@ import CatCondRouter from "./routes/principal/diagnostico/CatCondRouter.js";
 import CondicionRouter from "./routes/principal/diagnostico/CondicionRouter.js";
 import DiagnosticoRouter from "./routes/principal/diagnostico/DiagnosticoRouter.js";
 
-import insertInitialData from "./insertInitialData.js";
+//import insertInitialData from "./insertInitialData.js";
 
 import AuthRouter from "./routes/AuthRouter.js";
 
@@ -35,25 +35,26 @@ const store = new sessionStore({ db: db });
 (async () => {
     try {
         await db.sync(); //Sincronizar los modelos con la base de datos
-        await insertInitialData();
+       //await insertInitialData();
         console.log("Base de datos sincronizada y datos iniciales insertados");
     } catch (error) {
         console.error("Error durante la sincronización de la base de datos:", error);
+        process.exit(1);
     }
 })();
 
 
-app.use(session(
-    {
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        store: store,
-        cookie: {
-            secure: 'auto', //Si se usa http automaticamente será false, si es https será true
-        }
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: store,
+    cookie: {
+        secure: process.env.COOKIE_SECURE === 'true',  //las variables de entorno siempre se leen como cadena, asi que aqui comparamos a otra cadena de manera que retorne un booleano
+        httpOnly: true,
+        sameSite: process.env.COOKIE_SAMESITE,
     }
-));
+}));
 
 app.use(cors(
     {
@@ -62,6 +63,7 @@ app.use(cors(
     }
 ));
 
+app.set('trust proxy', 1);
 
 app.use(express.json());
 
